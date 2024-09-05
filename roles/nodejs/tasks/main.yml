@@ -1,0 +1,63 @@
+- name: Install Node.js
+  apt:
+    name: nodejs
+    state: present
+  register: nodejs_install
+  ignore_errors: yes
+
+- name: Install npm
+  apt:
+    name: npm
+    state: present
+  register: npm_install
+  ignore_errors: yes
+
+- name: Clone application repository
+  git:
+    repo: "{{ nodejs_repo }}"
+    dest: "{{ nodejs_app_path }}"
+  register: repo_clone
+  ignore_errors: yes
+
+- name: Install npm dependencies
+  command: npm install
+  args:
+    chdir: "{{ nodejs_app_path }}"
+  register: npm_install_dependencies
+  ignore_errors: yes
+
+- name: Start Node.js application
+  command: npm start
+  args:
+    chdir: "{{ nodejs_app_path }}"
+  register: nodejs_start
+  ignore_errors: yes
+  notify:
+    - Restart Node.js service
+
+# Debugging and error handling
+
+- name: Debug Node.js installation
+  debug:
+    msg: "Node.js installation status: {{ nodejs_install }}"
+  when: nodejs_install.failed
+
+- name: Debug npm installation
+  debug:
+    msg: "NPM installation status: {{ npm_install }}"
+  when: npm_install.failed
+
+- name: Debug repository clone
+  debug:
+    msg: "Repository clone status: {{ repo_clone }}"
+  when: repo_clone.failed
+
+- name: Debug npm dependencies installation
+  debug:
+    msg: "NPM dependencies installation status: {{ npm_install_dependencies }}"
+  when: npm_install_dependencies.failed
+
+- name: Debug Node.js application start
+  debug:
+    msg: "Node.js application start status: {{ nodejs_start }}"
+  when: nodejs_start.failed

@@ -1,0 +1,52 @@
+- name: Install MySQL server
+  apt:
+    name: mysql-server
+    state: present
+  register: mysql_install
+  ignore_errors: yes
+
+- name: Start MySQL service
+  service:
+    name: mysql
+    state: started
+    enabled: yes
+  register: mysql_service
+  ignore_errors: yes
+
+- name: Create MySQL database
+  mysql_db:
+    name: "{{ mysql_database_name }}"
+    state: present
+  register: mysql_db_create
+  ignore_errors: yes
+
+- name: Create MySQL user
+  mysql_user:
+    name: "{{ mysql_user_name }}"
+    password: "{{ mysql_user_password }}"
+    priv: '*.*:ALL'
+    state: present
+  register: mysql_user_create
+  ignore_errors: yes
+
+# Debugging and error handling
+
+- name: Debug MySQL installation
+  debug:
+    msg: "MySQL installation status: {{ mysql_install }}"
+  when: mysql_install.failed
+
+- name: Debug MySQL service status
+  debug:
+    msg: "MySQL service status: {{ mysql_service }}"
+  when: mysql_service.failed
+
+- name: Debug MySQL database creation
+  debug:
+    msg: "MySQL database creation status: {{ mysql_db_create }}"
+  when: mysql_db_create.failed
+
+- name: Debug MySQL user creation
+  debug:
+    msg: "MySQL user creation status: {{ mysql_user_create }}"
+  when: mysql_user_create.failed

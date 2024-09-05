@@ -1,0 +1,3 @@
+nodejs_repo: 'https://github.com/fazt/nodejs-mysql-links.git'
+nodejs_app_path: '/opt/nodejs-app'
+nodejs_port: 3000

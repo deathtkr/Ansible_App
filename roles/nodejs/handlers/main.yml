@@ -1,0 +1,4 @@
+- name: Restart Node.js service
+  service:
+    name: nodejs
+    state: restarted
