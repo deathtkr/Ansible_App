@@ -1,9 +1,6 @@
 plugin: azure.azcollection.azure_rm
-auth_source: auto
-subscription_id: "{{ azure_subscription_id }}"
-client_id: "{{ azure_client_id }}"
-secret: "{{ azure_client_secret }}"
-tenant: "{{ azure_tenant_id }}"
-resource_group: <YOUR_RESOURCE_GROUP>  # Optional, to filter by resource group
-query:
-  - resource_type: "Microsoft.Compute/virtualMachines"
+subscription_id: "{{ azure.subscription_id }}"
+client_id: "{{ azure.client_id }}"
+secret: "{{ azure.secret }}"
+tenant: "{{ azure.tenant }}"
+resource_group: "{{ azure.resource_group }}"
