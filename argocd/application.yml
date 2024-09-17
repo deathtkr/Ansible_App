@@ -8,10 +8,10 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/deathtkr/Ansible_App.git'  # Replace with your repository URL
-    targetRevision: HEAD
+    targetRevision: main
     path: k8s
   destination:
-    server: 'https://adi-dns-3wk8jt3v.hcp.eastus.azmk8s.io'
+    server: 'https://kubernetes.default.svc'
     namespace: default  # Replace with your target namespace
   syncPolicy:
     automated:
