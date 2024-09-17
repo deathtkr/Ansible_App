@@ -1,3 +1,4 @@
+# argocd/application.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -6,13 +7,15 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/deathtkr/Ansible_App.git'
+    repoURL: 'https://github.com/deathtkr/Ansible_App.git'  # Replace with your repository URL
     targetRevision: HEAD
     path: k8s
   destination:
-    server: 'https://kubernetes.default.svc'
-    namespace: default
+    server: 'adi-dns-3wk8jt3v.hcp.eastus.azmk8s.io'
+    namespace: default  # Replace with your target namespace
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
