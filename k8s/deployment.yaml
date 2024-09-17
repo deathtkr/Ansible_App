@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: argocd01.azurecr.io/myapp:32e082691ace7885b59068861f24fddf8650de16
+        image: argocd01.azurecr.io/myapp:6a116c096c8fb446a511a55dfb703ee233373bae
         ports:
         - containerPort: 3000
         env:
