@@ -1,0 +1,62 @@
+version: 2.1
+
+executors:
+  docker-executor:
+    docker:
+      - image: circleci/python:3.9
+
+jobs:
+  build-and-push:
+    executor: docker-executor
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.7
+          docker_layer_caching: true
+      - run:
+          name: Install Azure CLI
+          command: |
+            curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+      - run:
+          name: Login to Azure
+          command: |
+            echo $AZURE_CREDENTIALS | az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+      - run:
+          name: Log in to Azure Container Registry
+          command: |
+            az acr login --name argocd01
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -t myapp:${CIRCLE_SHA1} .
+      - run:
+          name: Push Docker Image to ACR
+          command: |
+            docker tag myapp:${CIRCLE_SHA1} argocd01.azurecr.io/myapp:${CIRCLE_SHA1}
+            docker push argocd01.azurecr.io/myapp:${CIRCLE_SHA1}
+
+  update-manifests:
+    executor: docker-executor
+    steps:
+      - checkout
+      - run:
+          name: Update Kubernetes Manifests
+          command: |
+            sed -i 's|image: .*$|image: argocd01.azurecr.io/myapp:${CIRCLE_SHA1}|' k8s/deployment.yaml
+      - run:
+          name: Commit and Push Changes
+          command: |
+            git config --global user.email "ci@circleci.com"
+            git config --global user.name "CircleCI"
+            git add k8s/deployment.yaml
+            git commit -m "Update image to ${CIRCLE_SHA1}"
+            git push origin main
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build-and-push
+      #- update-manifests:
+       #   requires:
+        #    - build-and-push
