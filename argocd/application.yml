@@ -11,7 +11,7 @@ spec:
     targetRevision: HEAD
     path: k8s
   destination:
-    server: 'adi-dns-3wk8jt3v.hcp.eastus.azmk8s.io'
+    server: 'https://adi-dns-3wk8jt3v.hcp.eastus.azmk8s.io:443'
     namespace: default  # Replace with your target namespace
   syncPolicy:
     automated:
