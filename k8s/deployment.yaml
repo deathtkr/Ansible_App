@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: argocd01.azurecr.io/myapp:latest
+        image: argocd01.azurecr.io/myapp:${CIRCLE_SHA1}
         ports:
         - containerPort: 3000
         env:
