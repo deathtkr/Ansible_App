@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const port = 3000;
-require('dotenv').config();
+
 // MySQL connection setup
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,  // Use environment variables
@@ -12,7 +12,6 @@ const connection = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME
 });
-
 
 console.log('Database Host:', process.env.DB_HOST);  // Log the DB_HOST value
 
@@ -50,4 +49,3 @@ app.post('/users/add', (req, res) => {
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server running at http://0.0.0.0:${port}`);
 });
-
