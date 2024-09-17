@@ -42,7 +42,7 @@ jobs:
       - run:
           name: Update Kubernetes Manifests
           command: |
-            sed -i 's|image: .*$|image: argocd01.azurecr.io/myapp:${CIRCLE_SHA1}|' k8s/deployment.yaml
+            sed -i "s|image: argocd01.azurecr.io/myapp:.*|image: argocd01.azurecr.io/myapp:${CIRCLE_SHA1}|" k8s/deployment.yaml
       - run:
           name: Commit and Push Changes
           command: |
@@ -51,6 +51,7 @@ jobs:
             git add k8s/deployment.yaml
             git commit -m "Update image to ${CIRCLE_SHA1}" || echo "No changes to commit"
             git remote set-url origin git@github.com:deathtkr/Ansible_App.git
+            git pull origin main --rebase
             git push git@github.com:deathtkr/Ansible_App.git
 
 workflows:
