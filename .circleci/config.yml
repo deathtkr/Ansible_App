@@ -49,7 +49,7 @@ jobs:
             git config --global user.email "ci@circleci.com"
             git config --global user.name "CircleCI"
             git add k8s/deployment.yaml
-            git commit -m "Update image to ${CIRCLE_SHA1}" || echo "No changes to commit"
+            git commit -m "Update image to ${CIRCLE_SHA1} [skip ci]" || echo "No changes to commit"
             git remote set-url origin git@github.com:deathtkr/Ansible_App.git
             git push git@github.com:deathtkr/Ansible_App.git
 
