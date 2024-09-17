@@ -1,6 +1,0 @@
-plugin: azure.azcollection.azure_rm
-subscription_id: "{{ azure.subscription_id }}"
-client_id: "{{ azure.client_id }}"
-secret: "{{ azure.secret }}"
-tenant: "{{ azure.tenant }}"
-resource_group: "{{ azure.resource_group }}"

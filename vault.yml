@@ -1,6 +1,0 @@
-azure:
-  subscription_id: "<your_subscription_id>"
-  client_id: "<your_appId>"
-  secret: "<your_password>"
-  tenant: "<your_tenant>"
-  resource_group: "<your_resource_group>"
