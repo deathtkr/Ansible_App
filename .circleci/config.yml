@@ -50,7 +50,8 @@ jobs:
             git config --global user.name "CircleCI"
             git add k8s/deployment.yaml
             git commit -m "Update image to ${CIRCLE_SHA1}"
-            git push origin main
+            git remote set-url origin https://github.com/username/repo.git
+            git push https://${GITHUB_PAT}@github.com/username/repo.git
 
 workflows:
   version: 2
