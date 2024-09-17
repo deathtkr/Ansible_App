@@ -28,12 +28,12 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t myapp:${CIRCLE_SHA1} .
+            docker build -t myapp:base .
       - run:
           name: Push Docker Image to ACR
           command: |
-            docker tag myapp:${CIRCLE_SHA1} argocd01.azurecr.io/myapp:${CIRCLE_SHA1}
-            docker push argocd01.azurecr.io/myapp:${CIRCLE_SHA1}
+            docker tag myapp:base argocd01.azurecr.io/myapp:base
+            docker push argocd01.azurecr.io/myapp:base
 
   update-manifests:
     executor: docker-executor
