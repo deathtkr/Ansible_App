@@ -3,7 +3,7 @@ version: 2.1
 executors:
   docker-executor:
     docker:
-      - image: circleci/python:3.9
+      - image: circleci/python:3.12.6
 
 jobs:
   build-and-push:
@@ -50,8 +50,8 @@ jobs:
             git config --global user.name "CircleCI"
             git add k8s/deployment.yaml
             git commit -m "Update image to ${CIRCLE_SHA1}"
-            git remote set-url origin https://github.com/username/repo.git
-            git push https://${GITHUB_PAT}@github.com/username/repo.git
+            git remote set-url origin https://github.com/deathtkr/Ansible_App.git
+            git push https://${GITHUB_PAT}@github.com/deathtkr/Ansible_App.git
 
 workflows:
   version: 2
