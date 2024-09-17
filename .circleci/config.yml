@@ -3,7 +3,7 @@ version: 2.1
 executors:
   docker-executor:
     docker:
-      - image: circleci/python:3.12.6
+      - image: circleci/python:3.8.20-browsers
 
 jobs:
   build-and-push:
