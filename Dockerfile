@@ -12,15 +12,9 @@ RUN npm install
 
 # Copy the rest of the application code
 COPY src/ ./src
-COPY app.js ./
-COPY public/ ./public
-COPY view/ ./view
-
-# Copy the .env file (if you have one in the root directory)
-COPY .env ./
 
 # Expose the port your app runs on
 EXPOSE 3000
 
 # Start the application
-CMD ["node", "app.js"]
+CMD ["node", "src/app.js"]
