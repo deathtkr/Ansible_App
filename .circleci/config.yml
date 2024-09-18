@@ -39,7 +39,7 @@ jobs:
           command: |
             git init
             git remote add origin git@github.com:deathtkr/Ansible_App.git
-      - checkout  # Re-clone the repository to bring back the Git structure
+      - checkout  # Re-clone the repository to bring back the Git structuref
       - run:
           name: Load pipeline state
           command: |
