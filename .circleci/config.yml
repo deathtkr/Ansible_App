@@ -29,7 +29,12 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - checkout  # Ensuring Dockerfile is checked out properly
+      - run:
+          name: Clean Git Files Only
+          command: |
+            # Remove .git directory but keep other files
+            rm -rf .git
+      - checkout  # Re-clone the repository to bring back the Git structure
       - run:
           name: Load pipeline state
           command: |
@@ -58,13 +63,7 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            # Check if Dockerfile exists in the root
-            if [ -f Dockerfile ]; then
-              docker build -t myapp:${CIRCLE_SHA1} -f Dockerfile .
-            else
-              echo "Dockerfile not found!"
-              exit 1
-            fi
+            docker build -t myapp:${CIRCLE_SHA1} .
       - run:
           name: Push Docker Image to ACR
           command: |
@@ -77,6 +76,12 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Clean Git Files Only
+          command: |
+            # Remove .git directory but keep other files
+            rm -rf .git
+      - checkout
+      - run:
           name: Load pipeline state
           command: |
             source pipeline_vars.txt
@@ -84,7 +89,6 @@ jobs:
               echo "No changes in the application code. Skipping manifest update."
               circleci-agent step halt
             fi
-      - checkout
       - run:
           name: Update Kubernetes Manifests
           command: |

@@ -7,7 +7,7 @@ const port = 3000;
 
 // MySQL connection setup
 const connection = mysql.createConnection({
-  host: process.env.DB_HOST,  // Use environment dd
+  host: process.env.DB_HOST,  // Use environment ddc
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME
