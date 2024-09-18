@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const port = 3000;
-
+console.log('Database Host:', process.env.DB_HOST);
 // MySQL connection setup
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,  // Use environment ddcjjjjd
@@ -47,5 +47,6 @@ app.post('/users/add', (req, res) => {
 
 // Start the server
 app.listen(port, '0.0.0.0', () => {
+  console.log('Database Host:', process.env.DB_HOST);
   console.log(`Server running at http://0.0.0.0:${port}`);
 });
