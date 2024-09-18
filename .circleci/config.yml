@@ -29,6 +29,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - checkout  # Ensuring Dockerfile is checked out properly
       - run:
           name: Load pipeline state
           command: |
@@ -57,7 +58,13 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t myapp:${CIRCLE_SHA1} -f ./Dockerfile .
+            # Check if Dockerfile exists in the root
+            if [ -f Dockerfile ]; then
+              docker build -t myapp:${CIRCLE_SHA1} -f Dockerfile .
+            else
+              echo "Dockerfile not found!"
+              exit 1
+            fi
       - run:
           name: Push Docker Image to ACR
           command: |
