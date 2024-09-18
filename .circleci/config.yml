@@ -34,6 +34,11 @@ jobs:
           command: |
             # Remove .git directory but keep other files
             rm -rf .git
+      - run:
+          name: Re-initialize Git Repository
+          command: |
+            git init
+            git remote add origin git@github.com:deathtkr/Ansible_App.git
       - checkout  # Re-clone the repository to bring back the Git structure
       - run:
           name: Load pipeline state
@@ -80,6 +85,11 @@ jobs:
           command: |
             # Remove .git directory but keep other files
             rm -rf .git
+      - run:
+          name: Re-initialize Git Repository
+          command: |
+            git init
+            git remote add origin git@github.com:deathtkr/Ansible_App.git
       - checkout
       - run:
           name: Load pipeline state
@@ -100,7 +110,6 @@ jobs:
             git config --global user.name "CircleCI"
             git add k8s/deployment.yaml
             git commit -m "Update image to ${CIRCLE_SHA1} [skip ci]" || echo "No changes to commit"
-            git remote set-url origin git@github.com:deathtkr/Ansible_App.git
             git push git@github.com:deathtkr/Ansible_App.git
 
 workflows:
