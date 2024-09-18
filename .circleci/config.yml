@@ -57,7 +57,7 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t myapp:${CIRCLE_SHA1} .
+            docker build -t myapp:${CIRCLE_SHA1} -f ./Dockerfile .
       - run:
           name: Push Docker Image to ACR
           command: |
