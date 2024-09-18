@@ -6,7 +6,7 @@ executors:
       - image: circleci/python:3.9
 
 jobs:
-  build-and-push:
+  check-code-changes:
     executor: docker-executor
     steps:
       - checkout
@@ -15,6 +15,25 @@ jobs:
           command: |
             # Check if there are changes in the `src/` directory
             if git diff --quiet HEAD^ HEAD src/; then
+              echo "NO_CHANGES=true" >> pipeline_vars.txt
+            else
+              echo "NO_CHANGES=false" >> pipeline_vars.txt
+            fi
+      - persist_to_workspace:
+          root: .
+          paths:
+            - pipeline_vars.txt
+
+  build-and-push:
+    executor: docker-executor
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Load pipeline state
+          command: |
+            source pipeline_vars.txt
+            if [ "$NO_CHANGES" = "true" ]; then
               echo "No changes in the application code. Skipping build."
               circleci-agent step halt
             else
@@ -48,6 +67,16 @@ jobs:
   update-manifests:
     executor: docker-executor
     steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Load pipeline state
+          command: |
+            source pipeline_vars.txt
+            if [ "$NO_CHANGES" = "true" ]; then
+              echo "No changes in the application code. Skipping manifest update."
+              circleci-agent step halt
+            fi
       - checkout
       - run:
           name: Update Kubernetes Manifests
@@ -67,7 +96,10 @@ workflows:
   version: 2
   build-deploy:
     jobs:
-      - build-and-push
+      - check-code-changes
+      - build-and-push:
+          requires:
+            - check-code-changes
       - update-manifests:
           requires:
             - build-and-push
