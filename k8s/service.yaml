@@ -10,5 +10,5 @@ spec:
     app: myapp  # Should match the label used in your Deployment
   ports:
     - protocol: TCP
-      port: 4230          # Port that the service exposes
-      targetPort: 4230  # Port on the container that the service forwards traffic to
+      port: 4330          # Port that the service exposes
+      targetPort: 4330  # Port on the container that the service forwards traffic to
