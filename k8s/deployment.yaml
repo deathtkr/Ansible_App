@@ -19,7 +19,7 @@ spec:
       - name: myapp
         image: argocd01.azurecr.io/myapp:f7249f27869f06ea3dcceb7e63e294546229998d
         ports:
-        - containerPort: 4230
+        - containerPort: 4330
         env:
         - name: DB_HOST
           valueFrom:
