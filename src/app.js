@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME
 });
 
-console.log('Database Host:', process.env.DB_HOST);  // Log the DB_HOST value7
+console.log('Database Host:', process.env.DB_HOST);  // Log the DB_HOST val
 
 connection.connect((err) => {
   if (err) {
